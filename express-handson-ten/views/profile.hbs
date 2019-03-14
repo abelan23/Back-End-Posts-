@@ -1,0 +1,62 @@
+<h1>Hello {{FirstName}} {{LastName}}</h1>
+<h2>Username: {{Username}}</h2>
+<h2>Posts: {{Posts}}</h2>
+<h3>{{Status}}</h3>
+
+
+<script>
+    function onSubmit() {
+
+        const firstName = document.getElementById('firstName').value;
+        const lastName = document.getElementById('lastName').value;
+        const email = document.getElementById('email').value;
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        $.ajax({
+            url: '/users/{{ UserId }}',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({ firstName: firstName, lastName: lastName, email: email, username: username, password: password }),
+            method: 'PUT', complete: () => window.location.reload()
+        })
+    }
+
+    function onDelete() {
+        $.ajax({
+            url: '/users/{{UserId}}/delete',
+            method: 'DELETE', complete: () => window.location = "/users"
+        })
+    }
+</script>
+
+<form onsubmit="onsubmit(); return false">
+    <div>
+        <label for="name">First Name: </label>
+        <input type="text" name="firstName">
+    </div>
+    <div>
+        <label for="name">Last Name: </label>
+        <input type="text" name="lastName">
+    </div>
+    <div>
+        <label for="name">Email: </label>
+        <input type="text" name="email">
+    </div>
+    <div>
+        <label for="name">Username: </label>
+        <input type="text" name="username">
+    </div>
+    <div>
+        <label for="name">Password: </label>
+        <input type="text" name="password">
+    </div>
+    <div>
+        <button type="submit">Update User</button>
+    </div>
+</form>
+
+<div>
+    <button onclick="onDelete()" id="deleteButton">Delete User</button>
+</div>
+
+<a href="/users/logout">Log out</a>
